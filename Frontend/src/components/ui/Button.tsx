@@ -10,11 +10,15 @@ export interface ButtonProps extends Omit<HTMLMotionProps<'button'>, 'ref'> {
 }
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant = 'primary', isLoading, children, disabled, ...props }, ref) => {
+  (
+    { className, variant = 'primary', isLoading, children, disabled, ...props },
+    ref
+  ) => {
     const variants = {
       primary: 'glass-button text-white',
       secondary: 'glass-panel hover:bg-white/10 text-white',
-      danger: 'bg-red-500/80 hover:bg-red-600 text-white shadow-lg shadow-red-500/30',
+      danger:
+        'bg-red-500/80 hover:bg-red-600 text-white shadow-lg shadow-red-500/30',
       ghost: 'hover:bg-white/10 text-slate-300 hover:text-white',
     };
 

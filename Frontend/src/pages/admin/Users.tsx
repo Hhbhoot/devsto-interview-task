@@ -18,7 +18,7 @@ export function AdminUsers() {
   const [error, setError] = useState('');
 
   const fetchUsers = () => {
-    api.get('/admin/users').then(res => setUsers(res.data.users));
+    api.get('/admin/users').then((res) => setUsers(res.data.users));
   };
 
   useEffect(() => {
@@ -30,12 +30,12 @@ export function AdminUsers() {
     setError('');
     setSuccess('');
     try {
-      await api.post('/admin/users', { 
-        name, 
-        email, 
-        password, 
+      await api.post('/admin/users', {
+        name,
+        email,
+        password,
         role,
-        ...(role === 'STAFF' && managerId ? { managerId } : {})
+        ...(role === 'STAFF' && managerId ? { managerId } : {}),
       });
       setSuccess('User created successfully');
       setName('');
@@ -57,7 +57,10 @@ export function AdminUsers() {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <h1 className="text-3xl font-bold text-white mb-2">System Users</h1>
-        <Button onClick={() => setIsModalOpen(true)} className="flex items-center gap-2">
+        <Button
+          onClick={() => setIsModalOpen(true)}
+          className="flex items-center gap-2"
+        >
           <Plus className="w-4 h-4" /> Create User
         </Button>
       </div>
@@ -75,24 +78,36 @@ export function AdminUsers() {
             </thead>
             <tbody>
               {users.map((u) => (
-                <tr key={u.id} className="border-b border-white/5 hover:bg-white/5 transition-colors">
+                <tr
+                  key={u.id}
+                  className="border-b border-white/5 hover:bg-white/5 transition-colors"
+                >
                   <td className="px-4 py-4 font-medium text-white">{u.name}</td>
                   <td className="px-4 py-4">{u.email}</td>
                   <td className="px-4 py-4">
-                    <span className={`px-2 py-1 rounded text-xs font-semibold ${
-                      u.role === 'ADMIN' ? 'bg-red-500/20 text-red-400' :
-                      u.role === 'MANAGER' ? 'bg-blue-500/20 text-blue-400' :
-                      'bg-green-500/20 text-green-400'
-                    }`}>
+                    <span
+                      className={`px-2 py-1 rounded text-xs font-semibold ${
+                        u.role === 'ADMIN'
+                          ? 'bg-red-500/20 text-red-400'
+                          : u.role === 'MANAGER'
+                            ? 'bg-blue-500/20 text-blue-400'
+                            : 'bg-green-500/20 text-green-400'
+                      }`}
+                    >
                       {u.role}
                     </span>
                   </td>
-                  <td className="px-4 py-4">{new Date(u.createdAt).toLocaleDateString()}</td>
+                  <td className="px-4 py-4">
+                    {new Date(u.createdAt).toLocaleDateString()}
+                  </td>
                 </tr>
               ))}
               {users.length === 0 && (
                 <tr>
-                  <td colSpan={4} className="px-4 py-8 text-center text-slate-500">
+                  <td
+                    colSpan={4}
+                    className="px-4 py-8 text-center text-slate-500"
+                  >
                     No users found.
                   </td>
                 </tr>
@@ -123,47 +138,97 @@ export function AdminUsers() {
                 >
                   <X className="w-5 h-5" />
                 </button>
-                <h2 className="text-xl font-semibold text-white mb-6">Create New User</h2>
-                {error && <div className="text-red-400 mb-4 text-sm">{error}</div>}
-                {success && <div className="text-green-400 mb-4 text-sm">{success}</div>}
+                <h2 className="text-xl font-semibold text-white mb-6">
+                  Create New User
+                </h2>
+                {error && (
+                  <div className="text-red-400 mb-4 text-sm">{error}</div>
+                )}
+                {success && (
+                  <div className="text-green-400 mb-4 text-sm">{success}</div>
+                )}
                 <form onSubmit={handleCreateUser} className="space-y-4">
-                  <Input label="Name" value={name} onChange={e => setName(e.target.value)} required />
-                  <Input label="Email" type="email" value={email} onChange={e => setEmail(e.target.value)} required />
-                  <Input label="Password" type="password" value={password} onChange={e => setPassword(e.target.value)} required />
+                  <Input
+                    label="Name"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    required
+                  />
+                  <Input
+                    label="Email"
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                  />
+                  <Input
+                    label="Password"
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                  />
                   <div className="flex flex-col space-y-1.5 w-full">
-                    <label className="text-sm font-medium text-slate-300">Role</label>
+                    <label className="text-sm font-medium text-slate-300">
+                      Role
+                    </label>
                     <select
                       value={role}
                       onChange={(e) => setRole(e.target.value)}
                       className="glass-input rounded-xl px-4 py-2.5 text-sm transition-all duration-200"
                     >
-                      <option value="STAFF" className="bg-slate-900">Staff</option>
-                      <option value="MANAGER" className="bg-slate-900">Manager</option>
-                      <option value="ADMIN" className="bg-slate-900">Admin</option>
+                      <option value="STAFF" className="bg-slate-900">
+                        Staff
+                      </option>
+                      <option value="MANAGER" className="bg-slate-900">
+                        Manager
+                      </option>
+                      <option value="ADMIN" className="bg-slate-900">
+                        Admin
+                      </option>
                     </select>
                   </div>
 
                   {role === 'STAFF' && (
                     <div className="flex flex-col space-y-1.5 w-full">
-                      <label className="text-sm font-medium text-slate-300">Assign Manager (Optional)</label>
+                      <label className="text-sm font-medium text-slate-300">
+                        Assign Manager (Optional)
+                      </label>
                       <select
                         value={managerId}
                         onChange={(e) => setManagerId(e.target.value)}
                         className="glass-input rounded-xl px-4 py-2.5 text-sm transition-all duration-200"
                       >
-                        <option value="" className="bg-slate-900">-- Select a Manager --</option>
-                        {users.filter(u => u.role === 'MANAGER').map(manager => (
-                          <option key={manager.id} value={manager.id} className="bg-slate-900">
-                            {manager.name} ({manager.email})
-                          </option>
-                        ))}
+                        <option value="" className="bg-slate-900">
+                          -- Select a Manager --
+                        </option>
+                        {users
+                          .filter((u) => u.role === 'MANAGER')
+                          .map((manager) => (
+                            <option
+                              key={manager.id}
+                              value={manager.id}
+                              className="bg-slate-900"
+                            >
+                              {manager.name} ({manager.email})
+                            </option>
+                          ))}
                       </select>
                     </div>
                   )}
 
                   <div className="pt-4 flex gap-3">
-                    <Button type="button" variant="secondary" onClick={() => setIsModalOpen(false)} className="w-full">Cancel</Button>
-                    <Button type="submit" className="w-full">Create User</Button>
+                    <Button
+                      type="button"
+                      variant="secondary"
+                      onClick={() => setIsModalOpen(false)}
+                      className="w-full"
+                    >
+                      Cancel
+                    </Button>
+                    <Button type="submit" className="w-full">
+                      Create User
+                    </Button>
                   </div>
                 </form>
               </GlassCard>

@@ -1,4 +1,10 @@
-import React, { createContext, useContext, useState, useEffect, type ReactNode } from 'react';
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  type ReactNode,
+} from 'react';
 import api from '../api';
 import { useNavigate } from 'react-router-dom';
 
@@ -24,12 +30,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const storedUser = localStorage.getItem('user');
     return storedUser ? JSON.parse(storedUser) : null;
   });
-  const [token, setToken] = useState<string | null>(() => localStorage.getItem('token'));
+  const [token, setToken] = useState<string | null>(() =>
+    localStorage.getItem('token')
+  );
   const navigate = useNavigate();
 
   useEffect(() => {
     if (token) {
-      api.get('/auth/me')
+      api
+        .get('/auth/me')
         .then((res) => {
           setUser(res.data.user);
           localStorage.setItem('user', JSON.stringify(res.data.user));
@@ -50,7 +59,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setUser(newUser);
     localStorage.setItem('token', newToken);
     localStorage.setItem('user', JSON.stringify(newUser));
-    
+
     // Redirect based on role
     if (newUser.role === 'ADMIN') navigate('/admin');
     else if (newUser.role === 'MANAGER') navigate('/manager');
@@ -66,7 +75,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, token, login, logout, isAuthenticated: !!token }}>
+    <AuthContext.Provider
+      value={{ user, token, login, logout, isAuthenticated: !!token }}
+    >
       {children}
     </AuthContext.Provider>
   );

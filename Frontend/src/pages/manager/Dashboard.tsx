@@ -10,7 +10,9 @@ export function ManagerDashboard() {
   const { user } = useAuth();
 
   const fetchStats = () => {
-    api.get('/manager/attendance/stats').then(res => setStats(res.data.stats));
+    api
+      .get('/manager/attendance/stats')
+      .then((res) => setStats(res.data.stats));
   };
 
   useEffect(() => {
@@ -31,7 +33,7 @@ export function ManagerDashboard() {
   return (
     <div className="space-y-6">
       <h1 className="text-3xl font-bold text-white mb-2">Manager Dashboard</h1>
-      
+
       {stats && (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <GlassCard className="flex items-center gap-4">
@@ -40,7 +42,9 @@ export function ManagerDashboard() {
             </div>
             <div>
               <p className="text-sm text-slate-400">Total Team Members</p>
-              <h3 className="text-2xl font-bold text-white">{stats.totalTeamMembers}</h3>
+              <h3 className="text-2xl font-bold text-white">
+                {stats.totalTeamMembers}
+              </h3>
             </div>
           </GlassCard>
 
@@ -50,7 +54,9 @@ export function ManagerDashboard() {
             </div>
             <div>
               <p className="text-sm text-slate-400">Checked In Today</p>
-              <h3 className="text-2xl font-bold text-white">{stats.checkedInToday}</h3>
+              <h3 className="text-2xl font-bold text-white">
+                {stats.checkedInToday}
+              </h3>
             </div>
           </GlassCard>
 
@@ -60,7 +66,9 @@ export function ManagerDashboard() {
             </div>
             <div>
               <p className="text-sm text-slate-400">Currently Online</p>
-              <h3 className="text-2xl font-bold text-white">{stats.currentlyOnline}</h3>
+              <h3 className="text-2xl font-bold text-white">
+                {stats.currentlyOnline}
+              </h3>
             </div>
           </GlassCard>
         </div>

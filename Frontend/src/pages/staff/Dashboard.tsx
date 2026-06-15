@@ -15,12 +15,16 @@ export function StaffDashboard() {
     try {
       const [statsRes, attendanceRes] = await Promise.all([
         api.get('/attendance/me/stats'),
-        api.get('/attendance/me?limit=1')
+        api.get('/attendance/me?limit=1'),
       ]);
       setStats(statsRes.data.stats);
-      
+
       const latestRecord = attendanceRes.data.attendance[0];
-      if (latestRecord && new Date(latestRecord.createdAt).toDateString() === new Date().toDateString()) {
+      if (
+        latestRecord &&
+        new Date(latestRecord.createdAt).toDateString() ===
+          new Date().toDateString()
+      ) {
         setTodayRecord(latestRecord);
       } else {
         setTodayRecord(null);
@@ -62,13 +66,21 @@ export function StaffDashboard() {
 
   return (
     <div className="space-y-6">
-      <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
+      <motion.div
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4 }}
+      >
         <h1 className="text-3xl font-bold text-white mb-2">My Dashboard</h1>
         <p className="text-slate-400 text-lg">Manage your daily attendance</p>
       </motion.div>
 
       {error && (
-        <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 font-medium">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 font-medium"
+        >
           {error}
         </motion.div>
       )}
@@ -76,9 +88,11 @@ export function StaffDashboard() {
       <GlassCard className="flex flex-col md:flex-row items-center justify-between gap-6 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-32 h-32 bg-primary-500/10 blur-[40px] rounded-full pointer-events-none" />
         <div className="relative z-10">
-          <h2 className="text-xl font-semibold text-white mb-1">Today's Status</h2>
+          <h2 className="text-xl font-semibold text-white mb-1">
+            Today's Status
+          </h2>
           <p className="text-slate-300 text-sm">
-            {todayRecord 
+            {todayRecord
               ? `Checked in at ${new Date(todayRecord.checkIn).toLocaleTimeString()}`
               : 'You have not checked in today.'}
           </p>
@@ -115,7 +129,9 @@ export function StaffDashboard() {
             </div>
             <div>
               <p className="text-sm text-slate-400">Total Hours (Month)</p>
-              <h3 className="text-2xl font-bold text-white">{stats.totalHoursMonth}h</h3>
+              <h3 className="text-2xl font-bold text-white">
+                {stats.totalHoursMonth}h
+              </h3>
             </div>
           </GlassCard>
 
@@ -125,7 +141,9 @@ export function StaffDashboard() {
             </div>
             <div>
               <p className="text-sm text-slate-400">Days Present (Month)</p>
-              <h3 className="text-2xl font-bold text-white">{stats.daysPresent}</h3>
+              <h3 className="text-2xl font-bold text-white">
+                {stats.daysPresent}
+              </h3>
             </div>
           </GlassCard>
 
@@ -135,7 +153,9 @@ export function StaffDashboard() {
             </div>
             <div>
               <p className="text-sm text-slate-400">Overtime (Month)</p>
-              <h3 className="text-2xl font-bold text-white">{stats.totalOvertimeMonth}h</h3>
+              <h3 className="text-2xl font-bold text-white">
+                {stats.totalOvertimeMonth}h
+              </h3>
             </div>
           </GlassCard>
         </div>

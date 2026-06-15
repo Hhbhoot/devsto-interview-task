@@ -35,23 +35,32 @@ function App() {
       <AuthProvider>
         <Routes>
           <Route path="/login" element={<Login />} />
-          
+
           <Route path="/" element={<ProtectedRoute />}>
             <Route element={<MainLayout />}>
               <Route index element={<Navigate to="/login" />} />
 
               {/* Staff Routes */}
-              <Route path="staff" element={<ProtectedRoute allowedRoles={['STAFF']} />}>
+              <Route
+                path="staff"
+                element={<ProtectedRoute allowedRoles={['STAFF']} />}
+              >
                 <Route index element={<StaffDashboard />} />
                 <Route path="history" element={<StaffAttendanceHistory />} />
                 <Route path="ai-assistant" element={<StaffAIAssistant />} />
                 <Route path="profile" element={<StaffProfile />} />
                 {/* Legacy route */}
-                <Route path="leaves" element={<Navigate to="/staff/history" />} />
+                <Route
+                  path="leaves"
+                  element={<Navigate to="/staff/history" />}
+                />
               </Route>
 
               {/* Manager Routes */}
-              <Route path="manager" element={<ProtectedRoute allowedRoles={['MANAGER']} />}>
+              <Route
+                path="manager"
+                element={<ProtectedRoute allowedRoles={['MANAGER']} />}
+              >
                 <Route index element={<ManagerDashboard />} />
                 <Route path="staff" element={<ManagerStaff />} />
                 <Route path="attendance" element={<ManagerAttendance />} />
@@ -64,7 +73,10 @@ function App() {
               </Route>
 
               {/* Admin Routes */}
-              <Route path="admin" element={<ProtectedRoute allowedRoles={['ADMIN']} />}>
+              <Route
+                path="admin"
+                element={<ProtectedRoute allowedRoles={['ADMIN']} />}
+              >
                 <Route index element={<AdminDashboard />} />
                 <Route path="users" element={<AdminUsers />} />
                 <Route path="attendance" element={<AdminAttendance />} />

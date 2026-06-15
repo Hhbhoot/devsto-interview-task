@@ -9,7 +9,7 @@ export function AdminDashboard() {
   const [stats, setStats] = useState<any>(null);
 
   const fetchStats = () => {
-    api.get('/admin/attendance/stats').then(res => setStats(res.data.stats));
+    api.get('/admin/attendance/stats').then((res) => setStats(res.data.stats));
   };
 
   useEffect(() => {
@@ -29,20 +29,20 @@ export function AdminDashboard() {
     show: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.1
-      }
-    }
+        staggerChildren: 0.1,
+      },
+    },
   };
 
   const item = {
     hidden: { opacity: 0, y: 10 },
-    show: { opacity: 1, y: 0 }
+    show: { opacity: 1, y: 0 },
   };
 
   return (
     <div className="space-y-6">
       <h1 className="text-3xl font-bold text-white mb-2">Admin Dashboard</h1>
-      
+
       {stats && (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           <GlassCard className="flex items-center gap-4">
@@ -51,7 +51,9 @@ export function AdminDashboard() {
             </div>
             <div>
               <p className="text-sm text-slate-400">Total Employees</p>
-              <h3 className="text-2xl font-bold text-white">{stats.totalEmployees}</h3>
+              <h3 className="text-2xl font-bold text-white">
+                {stats.totalEmployees}
+              </h3>
             </div>
           </GlassCard>
 
@@ -61,7 +63,9 @@ export function AdminDashboard() {
             </div>
             <div>
               <p className="text-sm text-slate-400">Checked In Today</p>
-              <h3 className="text-2xl font-bold text-white">{stats.checkedInToday}</h3>
+              <h3 className="text-2xl font-bold text-white">
+                {stats.checkedInToday}
+              </h3>
             </div>
           </GlassCard>
 
@@ -71,7 +75,9 @@ export function AdminDashboard() {
             </div>
             <div>
               <p className="text-sm text-slate-400">Currently Online</p>
-              <h3 className="text-2xl font-bold text-white">{stats.currentlyOnline}</h3>
+              <h3 className="text-2xl font-bold text-white">
+                {stats.currentlyOnline}
+              </h3>
             </div>
           </GlassCard>
 
@@ -81,7 +87,9 @@ export function AdminDashboard() {
             </div>
             <div>
               <p className="text-sm text-slate-400">Avg Working Hours</p>
-              <h3 className="text-2xl font-bold text-white">{stats.averageWorkingHours}h</h3>
+              <h3 className="text-2xl font-bold text-white">
+                {stats.averageWorkingHours}h
+              </h3>
             </div>
           </GlassCard>
 
@@ -91,7 +99,9 @@ export function AdminDashboard() {
             </div>
             <div>
               <p className="text-sm text-slate-400">Overtime (Week)</p>
-              <h3 className="text-2xl font-bold text-white">{stats.totalOvertimeWeek}h</h3>
+              <h3 className="text-2xl font-bold text-white">
+                {stats.totalOvertimeWeek}h
+              </h3>
             </div>
           </GlassCard>
 
@@ -101,7 +111,9 @@ export function AdminDashboard() {
             </div>
             <div>
               <p className="text-sm text-slate-400">Overtime (Month)</p>
-              <h3 className="text-2xl font-bold text-white">{stats.totalOvertimeMonth}h</h3>
+              <h3 className="text-2xl font-bold text-white">
+                {stats.totalOvertimeMonth}h
+              </h3>
             </div>
           </GlassCard>
         </div>

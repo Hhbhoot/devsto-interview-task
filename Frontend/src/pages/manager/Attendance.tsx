@@ -7,18 +7,21 @@ import { socket } from '../../lib/socket';
 
 export function ManagerAttendance() {
   const [attendance, setAttendance] = useState<any[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
   const { user } = useAuth();
 
   useEffect(() => {
-    api.get('/manager/team-attendance').then(res => setAttendance(res.data.attendance));
+    api
+      .get('/manager/team-attendance')
+      .then((res) => setAttendance(res.data.attendance));
 
     socket.on('attendanceUpdate', (newRecord) => {
-      // Only process if the record belongs to a team member
       if (newRecord.user?.managerId === user?.id) {
         setAttendance((prev) => {
           const exists = prev.find((r) => r.id === newRecord.id);
           if (exists) {
-            return prev.map((r) => r.id === newRecord.id ? newRecord : r);
+            return prev.map((r) => (r.id === newRecord.id ? newRecord : r));
           }
           return [newRecord, ...prev];
         });
@@ -35,15 +38,21 @@ export function ManagerAttendance() {
     show: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.1
-      }
-    }
+        staggerChildren: 0.1,
+      },
+    },
   };
 
   const item = {
     hidden: { opacity: 0, y: 10 },
-    show: { opacity: 1, y: 0 }
+    show: { opacity: 1, y: 0 },
   };
+
+  const totalPages = Math.ceil(attendance.length / itemsPerPage);
+  const paginatedAttendance = attendance.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
 
   return (
     <div className="space-y-6">
@@ -60,17 +69,36 @@ export function ManagerAttendance() {
               </tr>
             </thead>
             <motion.tbody variants={container} initial="hidden" animate="show">
-              {attendance.map((record) => (
-                <motion.tr variants={item} key={record.id} className="border-b border-white/5 hover:bg-white/5 transition-colors">
-                  <td className="px-4 py-4">{new Date(record.createdAt).toLocaleDateString()}</td>
-                  <td className="px-4 py-4 font-medium text-white">{record.user?.name}</td>
-                  <td className="px-4 py-4">{new Date(record.checkIn).toLocaleTimeString()}</td>
-                  <td className="px-4 py-4">{record.checkOut ? new Date(record.checkOut).toLocaleTimeString() : <span className="text-yellow-400/80">Active</span>}</td>
+              {paginatedAttendance.map((record) => (
+                <motion.tr
+                  variants={item}
+                  key={record.id}
+                  className="border-b border-white/5 hover:bg-white/5 transition-colors"
+                >
+                  <td className="px-4 py-4">
+                    {new Date(record.createdAt).toLocaleDateString()}
+                  </td>
+                  <td className="px-4 py-4 font-medium text-white">
+                    {record.user?.name}
+                  </td>
+                  <td className="px-4 py-4">
+                    {new Date(record.checkIn).toLocaleTimeString()}
+                  </td>
+                  <td className="px-4 py-4">
+                    {record.checkOut ? (
+                      new Date(record.checkOut).toLocaleTimeString()
+                    ) : (
+                      <span className="text-yellow-400/80">Active</span>
+                    )}
+                  </td>
                 </motion.tr>
               ))}
-              {attendance.length === 0 && (
+              {paginatedAttendance.length === 0 && (
                 <tr>
-                  <td colSpan={4} className="px-4 py-8 text-center text-slate-500">
+                  <td
+                    colSpan={4}
+                    className="px-4 py-8 text-center text-slate-500"
+                  >
                     No attendance records found for your team.
                   </td>
                 </tr>
@@ -78,6 +106,29 @@ export function ManagerAttendance() {
             </motion.tbody>
           </table>
         </div>
+
+        {/* Pagination Controls */}
+        {totalPages > 1 && (
+          <div className="flex justify-between items-center px-4 py-4 border-t border-white/10">
+            <button
+              onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+              disabled={currentPage === 1}
+              className="px-4 py-2 text-sm font-medium text-white bg-white/5 rounded-lg hover:bg-white/10 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            >
+              Previous
+            </button>
+            <span className="text-sm text-slate-400">
+              Page {currentPage} of {totalPages}
+            </span>
+            <button
+              onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+              disabled={currentPage === totalPages}
+              className="px-4 py-2 text-sm font-medium text-white bg-white/5 rounded-lg hover:bg-white/10 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            >
+              Next
+            </button>
+          </div>
+        )}
       </GlassCard>
     </div>
   );

@@ -32,7 +32,7 @@ export function StaffProfile() {
       await api.put('/auth/profile', data);
       setSuccess('Profile updated successfully');
       setPassword(''); // Clear password field
-      
+
       // Update local storage name if needed, though user will need to re-login to see all changes or context must update
       // Since context is read from token, full name update requires re-login or context update logic
       // But for now, success message is enough
@@ -51,10 +51,14 @@ export function StaffProfile() {
       <GlassCard>
         {error && <div className="text-red-400 mb-4">{error}</div>}
         {success && <div className="text-green-400 mb-4">{success}</div>}
-        
+
         <div className="mb-6 pb-6 border-b border-white/10">
-          <h2 className="text-lg font-semibold text-white mb-1">Account Details</h2>
-          <p className="text-sm text-slate-400">Your email address and role cannot be changed.</p>
+          <h2 className="text-lg font-semibold text-white mb-1">
+            Account Details
+          </h2>
+          <p className="text-sm text-slate-400">
+            Your email address and role cannot be changed.
+          </p>
           <div className="mt-4 grid grid-cols-2 gap-4">
             <div>
               <p className="text-sm text-slate-500">Email Address</p>
@@ -68,21 +72,25 @@ export function StaffProfile() {
         </div>
 
         <form onSubmit={handleUpdate} className="space-y-4">
-          <Input 
-            label="Full Name" 
-            value={name} 
-            onChange={e => setName(e.target.value)} 
-            required 
+          <Input
+            label="Full Name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
           />
-          <Input 
-            label="New Password" 
-            type="password" 
-            value={password} 
-            onChange={e => setPassword(e.target.value)} 
+          <Input
+            label="New Password"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
             placeholder="Leave blank to keep current password"
           />
           <div className="pt-4">
-            <Button type="submit" isLoading={loading} className="w-full sm:w-auto">
+            <Button
+              type="submit"
+              isLoading={loading}
+              className="w-full sm:w-auto"
+            >
               Save Changes
             </Button>
           </div>
