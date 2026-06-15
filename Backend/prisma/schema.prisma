@@ -1,0 +1,107 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client-js"
+  // output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  ADMIN
+  MANAGER
+  STAFF
+}
+
+enum LeaveStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+model User {
+  id String @id @default(uuid())
+
+  name  String
+  email String @unique
+
+  password String
+
+  role Role
+
+  managerId String?
+  manager   User?   @relation("ManagerStaff", fields: [managerId], references: [id])
+
+  staffs User[] @relation("ManagerStaff")
+
+  attendances Attendance[]
+
+  leaveRequests LeaveRequest[]
+
+  createdAt DateTime @default(now())
+}
+
+model Attendance {
+  id String @id @default(uuid())
+
+  userId String
+
+  checkIn DateTime?
+
+  checkOut DateTime?
+
+  workingHours Float?
+
+  overtimeHours Float?
+
+  user User @relation(fields: [userId], references: [id])
+
+  createdAt DateTime @default(now())
+}
+
+model LeaveRequest {
+  id String @id @default(uuid())
+
+  userId String
+
+  startDate DateTime
+
+  endDate DateTime
+
+  reason String
+
+  status LeaveStatus @default(PENDING)
+
+  user User @relation(fields: [userId], references: [id])
+
+  createdAt DateTime @default(now())
+}
+
+model Document {
+  id String @id @default(uuid())
+
+  title String
+
+  uploadedBy String
+
+  chunks DocumentChunk[]
+
+  createdAt DateTime @default(now())
+}
+
+model DocumentChunk {
+  id String @id @default(uuid())
+
+  documentId String
+
+  text String
+
+  pineconeId String
+
+  document Document @relation(fields: [documentId], references: [id])
+}

@@ -1,0 +1,84 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap');
+
+@theme {
+  --color-primary-500: #8a2be2;
+  --color-primary-600: #7b2cbf;
+  --color-background: #0f172a;
+}
+
+@layer base {
+  body {
+    background-color: var(--color-background);
+    color: #f8fafc;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    /* Custom sleek background */
+    background-image: 
+      radial-gradient(circle at 15% 50%, rgba(138, 43, 226, 0.08), transparent 25%),
+      radial-gradient(circle at 85% 30%, rgba(123, 44, 191, 0.08), transparent 25%);
+    background-attachment: fixed;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Outfit', system-ui, -apple-system, sans-serif;
+    letter-spacing: -0.02em;
+  }
+
+  /* Custom Scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: rgba(15, 23, 42, 0.5);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(138, 43, 226, 0.3);
+    border-radius: 4px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(138, 43, 226, 0.5);
+  }
+}
+
+@layer utilities {
+  .glass-panel {
+    background-color: rgba(20, 30, 50, 0.4);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+  }
+
+  .glass-panel:hover {
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 8px 32px rgba(138, 43, 226, 0.15);
+  }
+
+  .glass-input {
+    background-color: rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: white;
+    transition: all 0.3s ease;
+  }
+
+  .glass-input:focus {
+    outline: none;
+    border-color: var(--color-primary-500);
+    background-color: rgba(0, 0, 0, 0.4);
+    box-shadow: 0 0 0 3px rgba(138, 43, 226, 0.2);
+  }
+  
+  .glass-button {
+    background: linear-gradient(135deg, var(--color-primary-500) 0%, var(--color-primary-600) 100%);
+    box-shadow: 0 4px 15px rgba(138, 43, 226, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+  }
+  
+  .glass-button:hover {
+    box-shadow: 0 6px 20px rgba(138, 43, 226, 0.4);
+  }
+}
