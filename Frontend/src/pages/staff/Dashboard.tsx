@@ -18,17 +18,7 @@ export function StaffDashboard() {
         api.get('/attendance/me?limit=1'),
       ]);
       setStats(statsRes.data.stats);
-
-      const latestRecord = attendanceRes.data.attendance[0];
-      if (
-        latestRecord &&
-        new Date(latestRecord.createdAt).toDateString() ===
-          new Date().toDateString()
-      ) {
-        setTodayRecord(latestRecord);
-      } else {
-        setTodayRecord(null);
-      }
+      setTodayRecord(statsRes.data.todayRecord || null);
     } catch (err: any) {
       setError(err.response?.data?.error || 'Failed to load dashboard data');
     }

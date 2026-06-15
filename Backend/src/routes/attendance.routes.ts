@@ -1,5 +1,10 @@
 import { Router } from 'express';
-import { checkIn, checkOut, getMyAttendance, getMyStats } from '../controllers/attendance.controller';
+import {
+  checkIn,
+  checkOut,
+  getMyAttendance,
+  getMyStats,
+} from '../controllers/attendance.controller';
 import { verifyToken, authorizeRoles } from '../middlewares/auth.middleware';
 import { Role } from '@prisma/client';
 

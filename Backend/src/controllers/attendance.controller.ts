@@ -181,7 +181,21 @@ export const getMyStats = async (req: AuthRequest, res: Response) => {
 
     const today = new Date();
     const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
-    
+
+    today.setHours(0, 0, 0, 0);
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+
+    const todayRecord = await prisma.attendance.findFirst({
+      where: {
+        userId,
+        createdAt: {
+          gte: today,
+          lt: tomorrow,
+        },
+      },
+    });
+
     // Get all attendance for the current month
     const monthlyRecords = await prisma.attendance.findMany({
       where: {
@@ -202,6 +216,7 @@ export const getMyStats = async (req: AuthRequest, res: Response) => {
         totalOvertimeMonth: parseFloat(totalOvertimeMonth.toFixed(2)),
         daysPresent,
       },
+      todayRecord,
     });
   } catch (error) {
     console.error('Get stats error:', error);

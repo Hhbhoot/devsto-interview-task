@@ -54,12 +54,12 @@ async function generateData() {
   // 3. Generate 1 Month Attendance for all users (managers + staff)
   const allUsers = [...managers, ...staffList];
   const today = new Date();
-  
+
   // Go back 30 days
   for (let i = 30; i >= 1; i--) {
     const date = new Date();
     date.setDate(today.getDate() - i);
-    
+
     // Skip weekends (0 = Sunday, 6 = Saturday)
     const day = date.getDay();
     if (day === 0 || day === 6) continue;
@@ -70,19 +70,19 @@ async function generateData() {
 
     for (const user of allUsers) {
       // 90% chance they showed up to work
-      if (Math.random() < 0.1) continue; 
+      if (Math.random() < 0.1) continue;
 
       // Check-in between 8:30 AM and 10:00 AM
       const checkInHour = 8 + Math.floor(Math.random() * 2);
       const checkInMinute = Math.floor(Math.random() * 60);
-      
+
       const checkInTime = new Date(date);
       checkInTime.setHours(checkInHour, checkInMinute, 0, 0);
 
       // Check-out between 5:00 PM (17) and 7:00 PM (19)
       const checkOutHour = 17 + Math.floor(Math.random() * 3);
       const checkOutMinute = Math.floor(Math.random() * 60);
-      
+
       const checkOutTime = new Date(date);
       checkOutTime.setHours(checkOutHour, checkOutMinute, 0, 0);
 

@@ -1,6 +1,11 @@
 import { Router, Request, Response } from 'express';
 import { verifyToken, AuthRequest } from '../middlewares/auth.middleware';
-import { generateEmbedding, searchSimilarChunks, generateAnswer, generateDataAnswer } from '../lib/ai';
+import {
+  generateEmbedding,
+  searchSimilarChunks,
+  generateAnswer,
+  generateDataAnswer,
+} from '../lib/ai';
 import { prisma } from '../lib/prisma';
 
 const router = Router();
@@ -67,9 +72,9 @@ router.post('/ask-data', async (req: AuthRequest, res: Response) => {
               workingHours: true,
               overtimeHours: true,
               createdAt: true,
-            }
-          }
-        }
+            },
+          },
+        },
       });
     } else if (userRole === 'MANAGER') {
       data = await prisma.user.findMany({
@@ -85,9 +90,9 @@ router.post('/ask-data', async (req: AuthRequest, res: Response) => {
               workingHours: true,
               overtimeHours: true,
               createdAt: true,
-            }
-          }
-        }
+            },
+          },
+        },
       });
     }
 
