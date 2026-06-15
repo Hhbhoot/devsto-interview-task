@@ -8,7 +8,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: '*',
+    origin: 'https://devsto-interview-task-onge.vercel.app',
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
   })

@@ -6,7 +6,7 @@ let io: SocketIOServer;
 export const initSocket = (server: HttpServer) => {
   io = new SocketIOServer(server, {
     cors: {
-      origin: '*', // In production, replace with specific frontend domains
+      origin: 'https://devsto-interview-task-onge.vercel.app',
       methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     },
   });
