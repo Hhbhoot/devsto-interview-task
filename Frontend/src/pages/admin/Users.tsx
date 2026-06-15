@@ -13,6 +13,7 @@ export function AdminUsers() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('STAFF');
+  const [managerId, setManagerId] = useState('');
   const [success, setSuccess] = useState('');
   const [error, setError] = useState('');
 
@@ -29,12 +30,19 @@ export function AdminUsers() {
     setError('');
     setSuccess('');
     try {
-      await api.post('/admin/users', { name, email, password, role });
+      await api.post('/admin/users', { 
+        name, 
+        email, 
+        password, 
+        role,
+        ...(role === 'STAFF' && managerId ? { managerId } : {})
+      });
       setSuccess('User created successfully');
       setName('');
       setEmail('');
       setPassword('');
       setRole('STAFF');
+      setManagerId('');
       fetchUsers();
       setTimeout(() => {
         setIsModalOpen(false);
@@ -134,6 +142,25 @@ export function AdminUsers() {
                       <option value="ADMIN" className="bg-slate-900">Admin</option>
                     </select>
                   </div>
+
+                  {role === 'STAFF' && (
+                    <div className="flex flex-col space-y-1.5 w-full">
+                      <label className="text-sm font-medium text-slate-300">Assign Manager (Optional)</label>
+                      <select
+                        value={managerId}
+                        onChange={(e) => setManagerId(e.target.value)}
+                        className="glass-input rounded-xl px-4 py-2.5 text-sm transition-all duration-200"
+                      >
+                        <option value="" className="bg-slate-900">-- Select a Manager --</option>
+                        {users.filter(u => u.role === 'MANAGER').map(manager => (
+                          <option key={manager.id} value={manager.id} className="bg-slate-900">
+                            {manager.name} ({manager.email})
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  )}
+
                   <div className="pt-4 flex gap-3">
                     <Button type="button" variant="secondary" onClick={() => setIsModalOpen(false)} className="w-full">Cancel</Button>
                     <Button type="submit" className="w-full">Create User</Button>
